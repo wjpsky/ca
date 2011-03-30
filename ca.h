@@ -1,8 +1,9 @@
 char * translate(int i);
-void outputIR(int *result);
+void outputIR(unsigned char *result);
 void outputdirection(int direction);
-void print_result(int *result);
+void print_result(unsigned char *result);
 int speed_filter(int speed);
-int* distance_filter(int dangerzone,int ir1, int ir2, int ir3,int ir4);
-int* ir_filter(int *irs);
-int *currentDirection_filter(int currentDirection,int *directions);
+unsigned char* distance_filter(int dangerzone,int ir1, int ir2, int ir3,int ir4);
+unsigned char* ir_filter(unsigned char *irs);
+ unsigned char *currentDirection_filter(int currentDirection,unsigned char *directions);
+
