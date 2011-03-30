@@ -1,12 +1,11 @@
-BIN=func
+BIN= prog
 OBJS= collision_logic.c
-DISTFILE_TAR=handin.tar
-DISTFILE_TARGZ=handin.tar.gz
+
 
 $(BIN): $(OBJS)
 
 clean:
-	rm -f $(BIN)  $(DISTFILE_TAR)  $(DISTFILE_TARGZ)  
+	rm -f $(BIN)
 
 dist: $(BIN)
 	rm -f  $(DISTFILE_TAR)  $(DISTFILE_TARGZ) 
