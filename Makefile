@@ -1,5 +1,5 @@
 BIN= prog
-OBJS= collision_logic.c
+OBJS= collision_logic.c object_calculations.c
 
 
 $(BIN): $(OBJS)
