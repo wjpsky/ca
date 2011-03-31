@@ -220,8 +220,12 @@ int final_direction(unsigned char *directions)
   int i;
   for (i=0;i<6;i++)
     {
-      if(*(directions+i)==1)
-	return i+1;
+      if(*(directions+i)==1){
+	if(i==4)
+	  return 0;
+	else
+	  return i+1;
+      }	
     }
   return 6;
 }
