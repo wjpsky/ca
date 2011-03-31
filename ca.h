@@ -60,3 +60,11 @@ void print_result(unsigned char *result);
  *******************/
 float ir_distance(unsigned char irpin);
 float sonar_distance(int sonarPin);
+
+
+
+
+/*******************
+ *object_calculations.c
+ *******************/
+unsigned char* moving_closer (unsigned char* irDistances);
