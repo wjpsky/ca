@@ -103,7 +103,7 @@ unsigned char* distance_filter(int dangerzone,int ir1, int ir2, int ir3,int ir4)
     irBoolean4 ^= 1;
 
   //Allocates an array of 4 unsigned characters
-  unsigned char *irBooleans = calloc(4, sizeof(unsigned char)) ;
+  unsigned char *irBooleans= calloc(4, sizeof(unsigned char)) ;
   *irBooleans=irBoolean1;
   *(irBooleans+1)=irBoolean2;
   *(irBooleans+2)=irBoolean3;
@@ -133,7 +133,6 @@ unsigned char* ir_filter(unsigned char *irs)
   unsigned char right = 1;
   unsigned char hover = 1;
  
-
   //ir1 detects collision
   if (*irs==1)
     front ^= 1;
@@ -150,7 +149,8 @@ unsigned char* ir_filter(unsigned char *irs)
   if(*(irs+3)==1)
     right ^= 1;
 
-  unsigned char *directions = calloc(5, sizeof(unsigned char) );
+
+  unsigned char *directions= calloc(5, sizeof(unsigned char) );
   *directions=front;
   *(directions+1)=back;
   *(directions+2)=left;
@@ -228,6 +228,11 @@ unsigned char *moving_closer_filter(unsigned char *is_moving, unsigned char*dire
      *(directions+3) = 0;//can't go right
      *(directions+4) = 0;//can't hover
    }
+
+  PRINT;
+  printf("after filter according to the moving object\n");
+  print_result(directions);
+
  return directions;
 }
 
@@ -262,6 +267,7 @@ int final_direction(int currentDir, unsigned char *directions)
       dir=currentDir;
     }
 
+
   return dir;
 }
 
@@ -286,7 +292,6 @@ char * translate(int i)
 //**********************************************************
 void outputIR(unsigned char *result)
 {
-
   printf("\n detects an object at ");
   if(*result == 1)
     printf("\n Front ");
@@ -363,7 +368,7 @@ void print_result(unsigned char *result)
 //**********************************************************
 // main method
 //**********************************************************
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
   int ir1,ir2,ir3,ir4,flyingDir,speed;
 
@@ -405,4 +410,4 @@ int main(int argc, char* argv[])
       printf("too few argument\n");
       return 0;
     }
-}
+    }*/
