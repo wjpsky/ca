@@ -13,6 +13,12 @@
 #include "movement.h"
 
 
+
+
+//************************************************************
+// This function is used for showing a char as 0s and 1s
+//
+//************************************************************
 void print_char_to_Binary(char bin)
 {
   char counter,temp,bit;
@@ -31,12 +37,32 @@ void print_char_to_Binary(char bin)
 
   printf("\n");
 }
- 
+
 
 //************************************************************
-// 
+//Receives if the message is increasing(boolean), is in panic mode(boolean) 
+//and the integer representing the binary of the 4 affected motors 
+//
+// returns the 8 bits as a char , representing the message
+//************************************************************
+char to_MotorMessage(char Increasing, char PanicMode, char Motors)
+{
+
+
+}
+
+
+//************************************************************
+// Receives 0 or 1 status for 4 motors.
+// Returns the 4 bits as the end part of 8 bits of a char
 //
 //************************************************************
+char to_AffectedMotorBinary(char motor1, char motor2, char motor3, char motor4)
+{
+
+
+} 
+
 
 int main(int argc, char* argv[])
 {
