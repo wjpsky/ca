@@ -49,7 +49,12 @@ void print_result(unsigned char *result);
 /*******************
  * collision_main.c
  *******************/
-
+void loop();
+void loop(int ir1, int ir2, int ir3, int ir4);
+int direction_filter(int speed,int dir, 
+		     int ir1, int ir2, int ir3, int ir4);
+int get_speed();
+int get_dir();
 
 
 
