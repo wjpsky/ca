@@ -8,4 +8,4 @@
 
 
 
-void print_shortInt_to_Binary(char bin);
+void print_char_to_Binary(char bin);

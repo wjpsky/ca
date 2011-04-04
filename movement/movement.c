@@ -13,8 +13,7 @@
 #include "movement.h"
 
 
-
-void print_shortInt_to_Binary(char bin)
+void print_char_to_Binary(char bin)
 {
   char counter,temp,bit;
 
@@ -30,6 +29,7 @@ void print_shortInt_to_Binary(char bin)
 	printf("1");
     }
 
+  printf("\n");
 }
  
 
@@ -41,5 +41,5 @@ void print_shortInt_to_Binary(char bin)
 int main(int argc, char* argv[])
 {
  short int bin  = atoi(argv[1]);
- print_shortInt_to_Binary(bin);
+ print_char_to_Binary(bin);
 }
