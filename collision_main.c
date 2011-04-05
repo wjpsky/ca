@@ -9,14 +9,16 @@
  *
  * Movement/CA Group
  *****************************************************************************/
-//#define ENABLE_LIBARDUINO
+//#define  ENABLE_LIBARDUINO
 
 #ifdef ENABLE_LIBARDUINO
 
 #include <avr/io.h>
+#include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <libarduino.h>
+
 #include <WProgram.h>
 
 #define IRPIN1 0
@@ -26,9 +28,9 @@
 
 #endif
 
+
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "ca.h"
 #define PRINT printf("\n================================\n")
 
@@ -39,16 +41,16 @@
 // main method
 //**********************************************************
 
-int main()
+int main(void)
 {
   init();
 
-  //init the serial output
+  /* //init the serial output */
   serial_init();
   fdevopen(serial_putchar, serial_getchar);
 
   int i=0;
-  while(i<5)
+  while(i<1000)
     {
       direction_filter();
       i++;
@@ -62,35 +64,35 @@ int main()
 // filter the direction according to the collision logic
 // return the direction to go
 //**********************************************************
-int direction_filter()
+int direction_filter(void)
 {
 
   // get the distance
-  float ir1=ir_distance(IRPIN1);
+ int ir1=ir_distance(IRPIN1);
   printf ("ir1 = %d\n",ir1);
-  float ir2=ir_distance(IRPIN2);
+ int ir2=ir_distance(IRPIN2);
   printf ("ir2 = %d\n",ir2);
-  float ir3=ir_distance(IRPIN3);
+  int ir3=ir_distance(IRPIN3);
   printf ("ir3 = %d\n",ir3);
-  float ir4=ir_distance(IRPIN4);
+int ir4=ir_distance(IRPIN4);
   printf ("ir4 = %d\n",ir4);
 
   //SPEED -> DANGERZONE
   int dangerzone;
   dangerzone= speed_filter(get_speed());
 
-  PRINT;
-  printf("Quadrocopter travels at speed %d\n", get_speed());
-  printf("dangerous zone is %d\n", dangerzone);
+  /* PRINT; */
+  /* printf("Quadrocopter travels at speed %d\n", get_speed()); */
+  /* printf("dangerous zone is %d\n", dangerzone); */
 
 
   //DANGERZONE+IR DISTANCE-> BOOLEANS
   unsigned char * irBooleans;// freed
   irBooleans =  distance_filter(dangerzone,ir1,ir2,ir3,ir4);
 
-  PRINT;
-  printf("Result for which ir is triggered: \n");
-  outputIR(irBooleans);
+  /* PRINT; */
+  /* printf("Result for which ir is triggered: \n"); */
+  /* outputIR(irBooleans); */
 
 
   //BOOLEANS -> DIRECTION RESULTS
@@ -99,21 +101,21 @@ int direction_filter()
 
   free(irBooleans); 
 
-  PRINT;
-  printf("after filter the according to the ir BOOLEANS\n\n");
-  print_result(result);
+  /* PRINT; */
+  /* printf("after filter the according to the ir BOOLEANS\n\n"); */
+  /* print_result(result); */
 
 
   //CURRENT DIRECTION -> DIRECTION RESULTS
-  result = currentDirection_filter(dir,result);
+  result = currentDirection_filter(get_dir(),result);
 
-  PRINT;
-  printf("Quadrocopter heading towards ");
-  outputdirection(dir);
+  /* PRINT; */
+  /* printf("Quadrocopter heading towards "); */
+  /* outputdirection(dir); */
 
-  PRINT;
-  printf("after filter according to the heading directions\n\n");
-  print_result(result);
+  /* PRINT; */
+  /* printf("after filter according to the heading directions\n\n"); */
+  /* print_result(result); */
 
 
   int *distance_diff= calloc(4, sizeof(int) );
@@ -126,30 +128,28 @@ int direction_filter()
   unsigned char *moving_close = moving_closer(distance_diff);//freed
   free(distance_diff);
 
-  PRINT;
-  printf("Result for which direction is moving closer \n");
-  outputIR(moving_close);
+  /* PRINT; */
+  /* printf("Result for which direction is moving closer \n"); */
+  /* outputIR(moving_close); */
 
   // TOWARDS WHICH IR -> DIRECTION RESULT
   result=moving_closer_filter(moving_close,result);
   free(moving_close);
 
-  PRINT;
-  printf("after filter according to the moving object\n");
-  print_result(result);
+  /* PRINT; */
+  /* printf("after filter according to the moving object\n"); */
+  /* print_result(result); */
 
-  PRINT;
-  printf("\nFINAL\n\n");
-  print_result(result);
+  /* PRINT; */
+  /* printf("\nFINAL\n\n"); */
+  /* print_result(result); */
 
   //RESULT -> PICK ONE DIRECTION
   int finalDir = final_direction(get_dir(),result);
   free(result);
 
-  PRINT;
   printf("\nIF I HAVE TO PICK A DIRECTION\nI CHOOSE ");
   outputdirection(finalDir);
-  PRINT;
 
   return finalDir;
 }
@@ -279,7 +279,7 @@ int direction_filter(int speed,int dir,
 //**********************************************************
 // return the flying speed.
 //**********************************************************
-int get_speed()
+int get_speed(void)
 {
   return 20;
 }
@@ -288,7 +288,7 @@ int get_speed()
 //**********************************************************
 // return the current flying direction.
 //**********************************************************
-int get_dir()
+int get_dir(void)
 {
   return 2;
 }

@@ -49,18 +49,21 @@ void print_result(unsigned char *result);
 /*******************
  * collision_main.c
  *******************/
-int direction_filter();
-int direction_filter(int speed,int dir, 
+#ifdef ENABLE_LIBARDUINO
+int direction_filter(void);
+#else
+int direction_filter(int speed,int dir,
 		     int ir1, int ir2, int ir3, int ir4);
-int get_speed();
-int get_dir();
+#endif
+int get_speed(void);
+int get_dir(void);
 
 
 /*******************
  * collision_sensor.c
  *******************/
 int ir_distance(int irpin);
-float sonar_distance(int sonarPin);
+/* float sonar_distance(int sonarPin); */
 
 
 
