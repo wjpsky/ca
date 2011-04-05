@@ -1,13 +1,13 @@
 /*
-  . IR1(FRONT)
+  .     IR1(FRONT)
 
-  IR3(LEFT) IR4(RIGHT)
+  IR3(LEFT)   IR4(RIGHT)
 
-  . IR2(BACK)
+  .     IR2(BACK)
 
   {front, back, left, right,hover}
 
-
+*/
   /*****************************************************************************
   * Product: collision_logic.c
   * Version: 0.1
@@ -17,12 +17,14 @@
   * March 30th, 2011 - Amber: Changed int types to unsigned char for booleans.
   *                           Changed to bitwise operation for changing values
   *                      Jin: Add method to get the final destination
+  * March 31st, 2011 -   Jin: Add moving_closer_filter mothod
   *
   * Movement/CA Group
   *****************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "ca.h"
 
 //the speed control variables
@@ -45,8 +47,6 @@
 #define RIGHT 4
 #define HOVER 0
 
-#define PRINT printf("\n================================\n")
-
 
 //*******************************************************************************'
 // filter the dangerous zone for the quadrocopter to react according to the speed
@@ -67,10 +67,6 @@ int speed_filter(int speed)
   else
     dangerzone = MADZONE;
   
-  PRINT;
-  printf("Quadrocopter travels at speed %d\n", speed);
-  printf("dangerous zone is %d\n", dangerzone);
-
   return dangerzone;
 }
 
@@ -90,29 +86,24 @@ unsigned char* distance_filter(int dangerzone,int ir1, int ir2, int ir3,int ir4)
   unsigned char irBoolean4 = 1;
 
   if(ir1>dangerzone)
-    irBoolean1 ^= 1;
+    irBoolean1 = 0;
 
   if(ir2>dangerzone)
-    irBoolean2 ^= 1;
+    irBoolean2 = 0;
 
   if(ir3>dangerzone)
-    irBoolean3 ^= 1;
+    irBoolean3 = 0;
 
   if(ir4>dangerzone)
-    irBoolean4 ^= 1;
+    irBoolean4 = 0;
 
   //Allocates an array of 4 unsigned characters
-  unsigned char *irBooleans = calloc(4, sizeof(unsigned char)) ;
+  unsigned char *irBooleans= calloc(4, sizeof(unsigned char)) ;
   *irBooleans=irBoolean1;
   *(irBooleans+1)=irBoolean2;
   *(irBooleans+2)=irBoolean3;
   *(irBooleans+3)=irBoolean4;
-  
-  //prints output for the objects detected
-  PRINT;
-  printf("Result for which ir is triggered: \n");
-  outputIR(irBooleans);
-  
+    
   //returns the unsigned char array of 0 or 1 for each IR sensor
   return irBooleans;
 }
@@ -123,44 +114,38 @@ unsigned char* distance_filter(int dangerzone,int ir1, int ir2, int ir3,int ir4)
 // according to the boolean value of four irs
 // return the boolean value of 5 directions (front, back, left, right, hover)
 //**********************************************************
-unsigned char* ir_filter(unsigned char *irs)
+unsigned char* ir_filter(unsigned char *irBooleans)
 {
-
   unsigned char front = 1;
   unsigned char back = 1;
   unsigned char left = 1;
   unsigned char right = 1;
   unsigned char hover = 1;
  
-
   //ir1 detects collision
-  if (*irs==1)
-    front ^= 1;
+  if (*irBooleans==1)
+    front = 0;
 
   //ir2 detects collision
-  if(*(irs+1)==1)
-    back ^= 1;
+  if(*(irBooleans+1)==1)
+    back =0;
 
   //ir3 detects collision
-  if(*(irs+2)==1)
-    left ^= 1;
+  if(*(irBooleans+2)==1)
+    left =0;
 
   //ir4 detects collsion
-  if(*(irs+3)==1)
-    right ^= 1;
+  if(*(irBooleans+3)==1)
+    right =0;
 
-  unsigned char *results = calloc(5, sizeof(unsigned char) );
-  *results=front;
-  *(results+1)=back;
-  *(results+2)=left;
-  *(results+3)=right;
-  *(results+4)=hover;
+  unsigned char *directions= calloc(5, sizeof(unsigned char)) ;
+  *directions=front;
+  *(directions+1)=back;
+  *(directions+2)=left;
+  *(directions+3)=right;
+  *(directions+4)=hover;
 
-  PRINT;
-  printf("after filter the according to the irs\n\n");
-  print_result(results);
-
-  return results;
+  return directions;
 }
 
 
@@ -171,63 +156,87 @@ unsigned char* ir_filter(unsigned char *irs)
 //**********************************************************
 unsigned char *currentDirection_filter(int currentDirection,unsigned char *directions)
 {
-
-  unsigned char front = *(directions);
-  unsigned char back = *(directions+1);
-  unsigned char left = *(directions+2);
-  unsigned char right = *(directions+3);
-  unsigned char hover = *(directions+4);
-
   //face to sensor 1
   if(currentDirection==FRONT)
-    back = 0;
+    *(directions+1)= 0;//back
 
   if(currentDirection==BACK)
-    front = 0;
+    *(directions) = 0;//front
 
   if(currentDirection==LEFT)
-    right = 0;
+    *(directions+3) = 0;//right
 
   if(currentDirection==RIGHT)
-    left = 0;
+    *(directions+2) = 0;//left
 
-  unsigned char *results = calloc(5, sizeof(unsigned char) );
-  *results=front;
-  *(results+1)=back;
-  *(results+2)=left;
-  *(results+3)=right;
-  *(results+4)=hover;
-
-  PRINT;
-  printf("Quadrocopter heading towards ");
-  outputdirection(currentDirection);
-
-  PRINT;
-  printf("after filter according to the heading directions\n");
-  print_result(results);
-
-  return results;
+  return directions;
 }
 
+//**********************************************************
+//Filter the direction options for the quadrocopter
+//According to the objects which is moving towards
+//return the boolean value of 5 directions (front, back, left, right, hover)
+//**********************************************************
+unsigned char *moving_closer_filter(unsigned char *is_moving, unsigned char*directions)
+{
+
+  if(*is_moving==1)//moving towards front
+    {
+      *(directions) = 0;//can't go front
+      *(directions+4) = 0;//can't hover
+    }
+  if(*(is_moving+1)==1)//moving towards back
+    {
+      *(directions+1) = 0;//can't go back
+      *(directions+4) = 0;//can't hover
+    }
+  if(*(is_moving+2)==1)//moving towards left
+    {
+      *(directions+2) = 0;//can't go left
+      *(directions+4) = 0;//can't hover
+    }
+  if(*(is_moving+3)==1)//moving towards right
+    {
+      *(directions+3) = 0;//can't go right
+      *(directions+4) = 0;//can't hover
+    }
+
+ return directions;
+}
 
 //*********************************************************
 // Filter the direction options for the quadrocopter
 // return the first available direction in the list
 // return the integer, 1 front 2 back 3 left 4 right 0 hover
 //**********************************************************
-int final_direction(unsigned char *directions)
+int final_direction(int currentDir, unsigned char *directions)
 {
   int i;
-  for (i=0;i<6;i++)
+  int dir=6;
+
+  for (i=0;i<5;i++)
     {
+      //return the first one which fullfill the requirement 
       if(*(directions+i)==1){
 	if(i==4)
-	  return 0;
+	  {
+	    dir= 0;
+	  }
 	else
-	  return i+1;
+	  {
+	    dir=i+1;
+	  }	
+	break;
       }	
     }
-  return 6;
+
+  if(*(directions+currentDir-1)==1)
+    {
+      dir=currentDir;
+    }
+
+
+  return dir;
 }
 
 
@@ -251,7 +260,6 @@ char * translate(int i)
 //**********************************************************
 void outputIR(unsigned char *result)
 {
-
   printf("\n detects an object at ");
   if(*result == 1)
     printf("\n Front ");
@@ -328,7 +336,7 @@ void print_result(unsigned char *result)
 //**********************************************************
 // main method
 //**********************************************************
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
   int ir1,ir2,ir3,ir4,flyingDir,speed;
 
@@ -357,7 +365,7 @@ int main(int argc, char* argv[])
       printf("FINAL RESULT \n\n");
       print_result(currentDirection_filter_result);  
 
-      int dir = final_direction(currentDirection_filter_result);
+      int dir = final_direction(flyingDir, currentDirection_filter_result);
 
       PRINT; 
       printf("IF I HAVE TO PICK A DIRECTION\nI CHOOSE ");
@@ -370,6 +378,4 @@ int main(int argc, char* argv[])
       printf("too few argument\n");
       return 0;
     }
-}
-
-
+    }*/
