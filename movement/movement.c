@@ -3,7 +3,8 @@
   * Version: 0.1
   * Created: April 4 2011
   * History:
-  *              
+  *          
+  *
   *
   * Movement/CA Group
   *****************************************************************************/
@@ -69,7 +70,9 @@ void go_left_no_strafe()
 void go_right_no_strafe()
 {
 
+
 }
+
 
 //************************************************************
 //Go Forwards
@@ -166,8 +169,17 @@ if(motor4 == 1)
 
 int main(int argc, char* argv[])
 {
- short int bin  = atoi(argv[1]);
- 
+
+  //Receive the message through protocol from Navigation
+  //Char order (1 start or 0 Stop)
+  //int height
+  // int direction
+  
+  //simulated test data
+  char order  = atoi(argv[1]);
+  int  height  = atoi(argv[2]);
+  int direction = atoi(argv[3]);
+
  //TEMP TESTING SUPPORT
  /* char msg = to_AffectedMotorBinary(1,0,1,1);
  msg = to_MotorMessage(1,0,msg);
