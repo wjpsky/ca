@@ -20,9 +20,80 @@
 
 
 
+//************************************************************
+// 
+// 0100 0000 (start)
+//************************************************************
+void start_motors()
+{
+  
+
+}
 
 //************************************************************
-// This function is used for showing a char as 0s and 1s
+//
+//  0000 0000 (stop)
+//************************************************************
+void stop_motors()
+{
+  
+
+}
+
+
+//************************************************************
+//
+//  1111 1111 (hover)
+//************************************************************
+void hover()
+{
+
+}
+
+//************************************************************
+//
+//Go Left without turning (Strafe)
+//0110 1100 (left, decreases left motor and increases right motor)
+//************************************************************
+void go_left_no_strafe()
+{
+ 
+}
+
+
+//************************************************************
+//
+//Go Right without turning (Strafe)
+//0100 1100 (right, increases left motor and decreases right motor)
+//************************************************************
+void go_right_no_strafe()
+{
+
+}
+
+//************************************************************
+//Go Forwards
+//
+//0110 0011 (forward, decreases front motor and increases rear motor)
+//************************************************************
+void go_forwards()
+{
+
+
+}
+
+//************************************************************
+//Go Backwards
+//
+//0110 0011 (forward, decreases front motor and increases rear motor)
+//************************************************************
+void go_backwards()
+{
+
+}
+
+//************************************************************
+// This function is used for showing a char as 0s and 1s for testing
 //
 //************************************************************
 void print_char_to_Binary(char bin)
@@ -78,7 +149,7 @@ char to_AffectedMotorBinary(char motor1, char motor2, char motor3, char motor4)
   char motors = 0;
  
   if(motor1 == 1) 
-    SET_FLAG(motors, BIT_POS(3));
+  SET_FLAG(motors, BIT_POS(3));
 
  if(motor2 == 1)
    SET_FLAG(motors, BIT_POS(2));
