@@ -36,8 +36,9 @@ struct MoveCommand
 //************************************************************
 void start_motors()
 {
-  
-
+  char msg = 0;
+  SET_FLAG(msg, BIT_POS(6));
+  pWrite(msg);
 }
 
 //************************************************************
@@ -46,8 +47,8 @@ void start_motors()
 //************************************************************
 void stop_motors()
 {
-  
-
+  char msg = 0;
+  pWrite(msg);
 }
 
 
@@ -102,8 +103,8 @@ void go_forwards()
 void go_backwards()
 {
 
-}
 
+}
 
 
 //************************************************************
@@ -160,7 +161,6 @@ void pWrite(char msg)
 {
   printf("\nProtocol has this written to it: ");
   print_char_to_Binary(msg);
-  
 }
 
 void print_char_to_Binary(char bin)
@@ -200,9 +200,12 @@ int main(int argc, char* argv[])
 
   struct MoveCommand movement = {order,height,direction};
 
+  //start_motors();
+
   //read from magnetometer (x,y,z) and calculate the current heading
 
   //calculate the Y angle between the received instruction from navigation and the current heading
+  
 
   //send out the commands through protocoll to filter group
 
@@ -213,4 +216,5 @@ int main(int argc, char* argv[])
 
  printf("MESSAGE %d \n", msg);
  print_char_to_Binary(msg);*/
+
 }
