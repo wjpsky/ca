@@ -1,13 +1,13 @@
- /*****************************************************************************
-  * Product: movement.c
-  * Version: 0.1
-  * Created: April 4 2011
-  * History:
-  *          
-  *
-  *
-  * Movement/CA Group
-  *****************************************************************************/
+/*****************************************************************************
+ * Product: movement.c
+ * Version: 0.1
+ * Created: April 4 2011
+ * History:
+ *          
+ *
+ *
+ * Movement/CA Group
+ *****************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,9 +15,13 @@
 
 
 // BitMasking example http://www.indiabix.com/technical/c/bits-and-bytes/
-#define BIT_POS(N)               ( 1U << (N) )
+#define BIT_POS(N)            ( 1U << (N) )
 #define SET_FLAG(N, F)        ( (N) |= (F) )
 #define CLR_FLAG(N, F)        ( (N) &= -(F) )
+
+#define WEIGHT 100
+#define G 9.81
+#define INCREMENT 10
 
 
 
@@ -53,13 +57,88 @@ void stop_motors()
 
 
 //************************************************************
+//stay_hover_nr
+//
+//the number which make sure the drone stay hover
+//************************************************************
+int stay_hover_nr(){
+  int n;
+  n = WEIGHT*G/4/INCREMENT;
+  return n;
+}
+
+
+//************************************************************
+//lift_up 
+//
+//lift up and hover in a certain height
+//************************************************************
+void lift_up(int n, int up_level){
+  int i=n+up_level;
+  while(i>0){
+    char msg= to_AffectedMotorBinary(1,1,1,1);
+    msg=to_MotorMessage(0,0,msg);
+    pWrite(msg);
+    i--;
+  }
+  while (up_level>0){
+    char msg= to_AffectedMotorBinary(0,0,0,0);
+    msg=to_MotorMessage(0,0,msg);
+    pWrite(msg);
+    up_level--;
+  }
+}
+
+//************************************************************
+//go_down
+//
+//going down and hover in a certain height
+//************************************************************
+
+void go_down(int n, int down_level){
+  int i=down_level;
+
+  while(down_level>0){
+    char msg= to_AffectedMotorBinary(0,0,0,0);
+    msg=to_MotorMessage(0,0,msg);
+    pWrite(msg);
+    down_level--;
+  }
+  while(i>0){
+    char msg= to_AffectedMotorBinary(1,1,1,1);
+    msg=to_MotorMessage(0,0,msg);
+    pWrite(msg);
+    down_level--;
+  }
+
+}
+
+
+//************************************************************
+//lift_up 
+//
+//lift up and hover in a certain height
+//************************************************************
+void land(){
+
+
+
+
+}
+
+
+
+//************************************************************
 //
 //  1111 1111 (hover)
 //************************************************************
-void hover()
+  void hover()
 {
-
+  char msg = 0;
+  msg = ~msg;
+  pWrite(msg);
 }
+
 
 //************************************************************
 //
@@ -68,7 +147,10 @@ void hover()
 //************************************************************
 void go_left_no_strafe()
 {
- 
+  char msg = to_AffectedMotorBinary(1,1,0,0);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(1,0,msg);
+  pWrite(msg);
 }
 
 
@@ -79,8 +161,10 @@ void go_left_no_strafe()
 //************************************************************
 void go_right_no_strafe()
 {
-
-
+  char msg = to_AffectedMotorBinary(1,1,0,0);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(0,0,msg);
+  pWrite(msg);
 }
 
 
@@ -91,19 +175,24 @@ void go_right_no_strafe()
 //************************************************************
 void go_forwards()
 {
-
-
+  char msg = to_AffectedMotorBinary(0,0,1,1);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(1,0,msg);
+  pWrite(msg);
 }
 
 //************************************************************
 //Go Backwards
 //
-//0110 0011 (forward, decreases front motor and increases rear motor)
+//0100 0011 (forward, decreases front motor and increases rear motor)
 //************************************************************
 void go_backwards()
 {
 
-
+ char msg = to_AffectedMotorBinary(0,0,1,1);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(0,0,msg);
+  pWrite(msg);
 }
 
 
@@ -120,10 +209,10 @@ void go_backwards()
 char to_MotorMessage(char increasing, char panicMode, char motors)
 {
   if(increasing == 1)
-   SET_FLAG(motors, BIT_POS(4));
+   SET_FLAG(motors, BIT_POS(5));
 
   if(panicMode == 1)
-  SET_FLAG(motors, BIT_POS(5));
+  SET_FLAG(motors, BIT_POS(4));
   
   return motors;
 }
@@ -140,18 +229,18 @@ char to_AffectedMotorBinary(char motor1, char motor2, char motor3, char motor4)
   char motors = 0;
  
   if(motor1 == 1) 
-  SET_FLAG(motors, BIT_POS(3));
+    SET_FLAG(motors, BIT_POS(3));
 
- if(motor2 == 1)
-   SET_FLAG(motors, BIT_POS(2));
+  if(motor2 == 1)
+    SET_FLAG(motors, BIT_POS(2));
 
-if(motor3 == 1) 
-  SET_FLAG(motors, BIT_POS(1)) ;
+  if(motor3 == 1) 
+    SET_FLAG(motors, BIT_POS(1)) ;
 
-if(motor4 == 1)
-   SET_FLAG(motors, BIT_POS(0)) ;
+  if(motor4 == 1)
+    SET_FLAG(motors, BIT_POS(0)) ;
 
-   return motors;
+  return motors;
 } 
 
 
@@ -200,7 +289,13 @@ int main(int argc, char* argv[])
 
   struct MoveCommand movement = {order,height,direction};
 
-  //start_motors();
+  /* start_motors();
+  stop_motors(); 
+  hover();
+  go_forwards();
+  go_backwards();
+  go_right_no_strafe();
+  go_left_no_strafe();*/
 
   //read from magnetometer (x,y,z) and calculate the current heading
 
@@ -210,11 +305,11 @@ int main(int argc, char* argv[])
   //send out the commands through protocoll to filter group
 
 
- //TEMP TESTING SUPPORT
- /* char msg = to_AffectedMotorBinary(1,0,1,1);
- msg = to_MotorMessage(1,0,msg);
+  //TEMP TESTING SUPPORT
+  /* char msg = to_AffectedMotorBinary(1,0,1,1);
+     msg = to_MotorMessage(1,0,msg);
 
- printf("MESSAGE %d \n", msg);
- print_char_to_Binary(msg);*/
+     printf("MESSAGE %d \n", msg);
+     print_char_to_Binary(msg);*/
 
 }
