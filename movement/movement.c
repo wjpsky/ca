@@ -134,10 +134,16 @@ void land(int n){
 //************************************************************
   void hover()
 {
+<<<<<<< HEAD
 
 
 
 
+=======
+  char msg = 0;
+  msg = ~msg;
+  pWrite(msg);
+>>>>>>> 1566814e99c1ce0ad33fcd10ada431c06819a9ff
 }
 
 
@@ -148,7 +154,10 @@ void land(int n){
 //************************************************************
 void go_left_no_strafe()
 {
- 
+  char msg = to_AffectedMotorBinary(1,1,0,0);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(1,0,msg);
+  pWrite(msg);
 }
 
 
@@ -159,8 +168,10 @@ void go_left_no_strafe()
 //************************************************************
 void go_right_no_strafe()
 {
-
-
+  char msg = to_AffectedMotorBinary(1,1,0,0);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(0,0,msg);
+  pWrite(msg);
 }
 
 
@@ -171,19 +182,24 @@ void go_right_no_strafe()
 //************************************************************
 void go_forwards()
 {
-
-
+  char msg = to_AffectedMotorBinary(0,0,1,1);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(1,0,msg);
+  pWrite(msg);
 }
 
 //************************************************************
 //Go Backwards
 //
-//0110 0011 (forward, decreases front motor and increases rear motor)
+//0100 0011 (forward, decreases front motor and increases rear motor)
 //************************************************************
 void go_backwards()
 {
 
-
+ char msg = to_AffectedMotorBinary(0,0,1,1);
+  SET_FLAG(msg, BIT_POS(6));
+  msg = to_MotorMessage(0,0,msg);
+  pWrite(msg);
 }
 
 
@@ -200,10 +216,17 @@ void go_backwards()
 char to_MotorMessage(char increasing, char panicMode, char motors)
 {
   if(increasing == 1)
+<<<<<<< HEAD
     SET_FLAG(motors, BIT_POS(4));
 
   if(panicMode == 1)
     SET_FLAG(motors, BIT_POS(5));
+=======
+   SET_FLAG(motors, BIT_POS(5));
+
+  if(panicMode == 1)
+  SET_FLAG(motors, BIT_POS(4));
+>>>>>>> 1566814e99c1ce0ad33fcd10ada431c06819a9ff
   
   return motors;
 }
@@ -280,7 +303,13 @@ int main(int argc, char* argv[])
 
   struct MoveCommand movement = {order,height,direction};
 
-  //start_motors();
+  /* start_motors();
+  stop_motors(); 
+  hover();
+  go_forwards();
+  go_backwards();
+  go_right_no_strafe();
+  go_left_no_strafe();*/
 
   //read from magnetometer (x,y,z) and calculate the current heading
 
