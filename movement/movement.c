@@ -21,6 +21,15 @@
 
 
 
+//Movement Command received from CA or Navigation
+struct MoveCommand 
+{
+  char order;
+  int  height;
+  int direction;
+};
+
+
 //************************************************************
 // 
 // 0100 0000 (start)
@@ -95,28 +104,6 @@ void go_backwards()
 
 }
 
-//************************************************************
-// This function is used for showing a char as 0s and 1s for testing
-//
-//************************************************************
-void print_char_to_Binary(char bin)
-{
-  char counter,temp,bit;
-
-  counter =sizeof(bin) * 8;
-
-  for(counter = counter - 1; counter >= 0; counter--)
-    {
-      temp = 1 << counter;
-      bit = temp & bin;
-      if( bit == 0)
-	printf("0");
-      else
-	printf("1");
-    }
-
-  printf("\n");
-}
 
 
 //************************************************************
@@ -145,7 +132,7 @@ char to_MotorMessage(char increasing, char panicMode, char motors)
 //
 // Receives 0 or 1 status for 4 motors.
 // Returns the 4 bits as the end part of 8 bits of a char
-//
+// 
 //************************************************************
 char to_AffectedMotorBinary(char motor1, char motor2, char motor3, char motor4)
 {
@@ -167,6 +154,37 @@ if(motor4 == 1)
 } 
 
 
+
+//*******TEST METHODS
+void pWrite(char msg)
+{
+  printf("\nProtocol has this written to it: ");
+  print_char_to_Binary(msg);
+  
+}
+
+void print_char_to_Binary(char bin)
+{
+  char counter,temp,bit;
+
+  counter =sizeof(bin) * 8;
+
+  for(counter = counter - 1; counter >= 0; counter--)
+    {
+      temp = 1 << counter;
+      bit = temp & bin;
+      if( bit == 0)
+	printf("0");
+      else
+	printf("1");
+    }
+
+  printf("\n");
+}
+
+//************End of Testing methods
+
+
 int main(int argc, char* argv[])
 {
 
@@ -179,6 +197,15 @@ int main(int argc, char* argv[])
   char order  = atoi(argv[1]);
   int  height  = atoi(argv[2]);
   int direction = atoi(argv[3]);
+
+  struct MoveCommand movement = {order,height,direction};
+
+  //read from magnetometer (x,y,z) and calculate the current heading
+
+  //calculate the Y angle between the received instruction from navigation and the current heading
+
+  //send out the commands through protocoll to filter group
+
 
  //TEMP TESTING SUPPORT
  /* char msg = to_AffectedMotorBinary(1,0,1,1);
