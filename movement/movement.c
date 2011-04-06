@@ -23,6 +23,7 @@
 #define G 9.81
 #define INCREMENT 10
 
+///////struct control_message motor_msg;
 
 
 //Movement Command received from CA or Navigation
@@ -175,6 +176,12 @@ void go_right_no_strafe()
 //************************************************************
 void go_forwards()
 {
+
+     /*   motor_msg.rear=1;
+	motor_msg.left=1;
+	motor_msg.increase=1;
+	motor_msg.panic=1;*/
+
   char msg = to_AffectedMotorBinary(0,0,1,1);
   SET_FLAG(msg, BIT_POS(6));
   msg = to_MotorMessage(1,0,msg);
@@ -188,7 +195,10 @@ void go_forwards()
 //************************************************************
 void go_backwards()
 {
-
+	/*motor_msg.rear=1;
+	motor_msg.right=1;
+	motor_msg.increase=1;
+	motor_msg.panic=1;*/
  char msg = to_AffectedMotorBinary(0,0,1,1);
   SET_FLAG(msg, BIT_POS(6));
   msg = to_MotorMessage(0,0,msg);
