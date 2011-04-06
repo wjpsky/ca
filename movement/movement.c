@@ -96,15 +96,15 @@ void lift_up(int n, int up_level){
 //************************************************************
 
 void go_down(int n, int down_level){
+  int i=down_level;
 
-  while(down_level<0){
+  while(down_level>0){
     char msg= to_AffectedMotorBinary(0,0,0,0);
     msg=to_MotorMessage(0,0,msg);
     pWrite(msg);
     down_level--;
   }
-
-  while(down_level<0){
+  while(i>0){
     char msg= to_AffectedMotorBinary(1,1,1,1);
     msg=to_MotorMessage(0,0,msg);
     pWrite(msg);
@@ -119,7 +119,7 @@ void go_down(int n, int down_level){
 //
 //lift up and hover in a certain height
 //************************************************************
-void land(int n){
+void land(){
 
 
 
