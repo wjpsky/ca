@@ -1,9 +1,9 @@
 /*
-  . IR1(FRONT)
+  .     IR1(FRONT)
 
-  IR3(LEFT) IR4(RIGHT)
+  IR3(LEFT)   IR4(RIGHT)
 
-  . IR2(BACK)
+  .     IR2(BACK)
 
   {front, back, left, right,hover}
 
@@ -17,6 +17,7 @@
   * March 30th, 2011 - Amber: Changed int types to unsigned char for booleans.
   *                           Changed to bitwise operation for changing values
   *                      Jin: Add method to get the final destination
+  * March 31st, 2011 -   Jin: Add moving_closer_filter mothod
   *
   * Movement/CA Group
   *****************************************************************************/
@@ -149,18 +150,18 @@ unsigned char* ir_filter(unsigned char *irs)
   if(*(irs+3)==1)
     right ^= 1;
 
-  unsigned char *results = calloc(5, sizeof(unsigned char) );
-  *results=front;
-  *(results+1)=back;
-  *(results+2)=left;
-  *(results+3)=right;
-  *(results+4)=hover;
+  unsigned char *directions = calloc(5, sizeof(unsigned char) );
+  *directions=front;
+  *(directions+1)=back;
+  *(directions+2)=left;
+  *(directions+3)=right;
+  *(directions+4)=hover;
 
   PRINT;
   printf("after filter the according to the irs\n\n");
-  print_result(results);
+  print_result(directions);
 
-  return results;
+  return directions;
 }
 
 
@@ -171,32 +172,18 @@ unsigned char* ir_filter(unsigned char *irs)
 //**********************************************************
 unsigned char *currentDirection_filter(int currentDirection,unsigned char *directions)
 {
-
-  unsigned char front = *(directions);
-  unsigned char back = *(directions+1);
-  unsigned char left = *(directions+2);
-  unsigned char right = *(directions+3);
-  unsigned char hover = *(directions+4);
-
   //face to sensor 1
   if(currentDirection==FRONT)
-    back = 0;
+    *(directions+1)= 0;//back
 
   if(currentDirection==BACK)
-    front = 0;
+    *(directions) = 0;//front
 
   if(currentDirection==LEFT)
-    right = 0;
+    *(directions+3) = 0;//right
 
   if(currentDirection==RIGHT)
-    left = 0;
-
-  unsigned char *results = calloc(5, sizeof(unsigned char) );
-  *results=front;
-  *(results+1)=back;
-  *(results+2)=left;
-  *(results+3)=right;
-  *(results+4)=hover;
+    *(directions+2) = 0;//left
 
   PRINT;
   printf("Quadrocopter heading towards ");
@@ -204,30 +191,78 @@ unsigned char *currentDirection_filter(int currentDirection,unsigned char *direc
 
   PRINT;
   printf("after filter according to the heading directions\n");
-  print_result(results);
+  print_result(directions);
 
-  return results;
+  return directions;
 }
 
+//**********************************************************
+//Filter the direction options for the quadrocopter
+//According to the objects which is moving towards
+//return the boolean value of 5 directions (front, back, left, right, hover)
+//**********************************************************
+unsigned char *moving_closer_filter(unsigned char *is_moving, unsigned char*directions)
+{
+ unsigned char moveTowardsFront=*is_moving;
+ unsigned char moveTowardsBack=*(is_moving+1);
+ unsigned char moveTowardsLeft=*(is_moving+2);
+ unsigned char moveTowardsRight=*(is_moving+3);
+
+ if(moveTowardsFront==1)
+   {
+     *(directions) = 0;//can't go front
+     *(directions+4) = 0;//can't hover
+   }
+ if(moveTowardsBack==1)
+   {
+     *(directions+1) = 0;//can't go back
+     *(directions+4) = 0;//can't hover
+   }
+ if(moveTowardsLeft==1)
+   {
+     *(directions+2) = 0;//can't go left
+     *(directions+4) = 0;//can't hover
+   }
+ if(moveTowardsRight==1)
+   {
+     *(directions+3) = 0;//can't go right
+     *(directions+4) = 0;//can't hover
+   }
+ return directions;
+}
 
 //*********************************************************
 // Filter the direction options for the quadrocopter
 // return the first available direction in the list
 // return the integer, 1 front 2 back 3 left 4 right 0 hover
 //**********************************************************
-int final_direction(unsigned char *directions)
+int final_direction(int currentDir, unsigned char *directions)
 {
   int i;
-  for (i=0;i<6;i++)
+  int dir=6;
+
+  for (i=0;i<5;i++)
     {
+      //return the first one which fullfill the requirement 
       if(*(directions+i)==1){
 	if(i==4)
-	  return 0;
+	  {
+	    dir= 0;
+	  }
 	else
-	  return i+1;
+	  {
+	    dir=i+1;
+	  }	
+	break;
       }	
     }
-  return 6;
+
+  if(*(directions+currentDir-1)==1)
+    {
+      dir=currentDir;
+    }
+
+  return dir;
 }
 
 
@@ -357,7 +392,7 @@ int main(int argc, char* argv[])
       printf("FINAL RESULT \n\n");
       print_result(currentDirection_filter_result);  
 
-      int dir = final_direction(currentDirection_filter_result);
+      int dir = final_direction(flyingDir, currentDirection_filter_result);
 
       PRINT; 
       printf("IF I HAVE TO PICK A DIRECTION\nI CHOOSE ");
@@ -371,5 +406,3 @@ int main(int argc, char* argv[])
       return 0;
     }
 }
-
-

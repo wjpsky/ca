@@ -1,11 +1,8 @@
 /*****************************************************************************
  * Product: ca.h
  * Version: 0.1
- * Creators: Jin, Amber
  * Created: March 30 2011
- * History: 
  *
- * 
  * Movement/CA Group
  *****************************************************************************/
 
@@ -33,10 +30,15 @@ unsigned char* ir_filter(unsigned char *irs);
 // return the boolean value of 5 directions (front, back, left, right, hover)
 unsigned char *currentDirection_filter(int currentDirection,unsigned char *directions);
 
+//Filter the direction options for the quadrocopter
+//According to the objects which is moving towards
+//return the boolean value of 5 directions (front, back, left, right, hover)
+unsigned char *moving_closer_filter(unsigned char *is_moving, unsigned char*directions);
+
 // Filter the direction options for the quadrocopter
 // return the first available direction in the list
 // return the integer, 1 front 2 back 3 left 4 right 0 hover
-int final_direction(unsigned char *directions);
+int final_direction(int currentDir, unsigned char *directions);
 
 // for print the data
 char * translate(int i);
