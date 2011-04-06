@@ -134,16 +134,9 @@ void land(int n){
 //************************************************************
   void hover()
 {
-<<<<<<< HEAD
-
-
-
-
-=======
   char msg = 0;
   msg = ~msg;
   pWrite(msg);
->>>>>>> 1566814e99c1ce0ad33fcd10ada431c06819a9ff
 }
 
 
@@ -216,17 +209,10 @@ void go_backwards()
 char to_MotorMessage(char increasing, char panicMode, char motors)
 {
   if(increasing == 1)
-<<<<<<< HEAD
-    SET_FLAG(motors, BIT_POS(4));
-
-  if(panicMode == 1)
-    SET_FLAG(motors, BIT_POS(5));
-=======
    SET_FLAG(motors, BIT_POS(5));
 
   if(panicMode == 1)
   SET_FLAG(motors, BIT_POS(4));
->>>>>>> 1566814e99c1ce0ad33fcd10ada431c06819a9ff
   
   return motors;
 }
