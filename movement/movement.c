@@ -19,9 +19,9 @@
 #define SET_FLAG(N, F)        ( (N) |= (F) )
 #define CLR_FLAG(N, F)        ( (N) &= -(F) )
 
-#define WEIGHT 100
+#define WEIGHT 5
 #define G 9.81
-#define INCREMENT 10
+#define INCREMENT 5
 
 
 
@@ -59,7 +59,7 @@ void stop_motors()
 //************************************************************
 //stay_hover_nr
 //
-//the number which make sure the drone stay hover
+//number of times to send lift up message to get the drone stay hover
 //************************************************************
 int stay_hover_nr(){
   int n;
@@ -96,34 +96,35 @@ void lift_up(int n, int up_level){
 //************************************************************
 
 void go_down(int n, int down_level){
-  int i=down_level;
+  if(down_level<n){
+    int i=down_level;
 
-  while(down_level>0){
-    char msg= to_AffectedMotorBinary(0,0,0,0);
-    msg=to_MotorMessage(0,0,msg);
-    pWrite(msg);
-    down_level--;
+    while(down_level>0){
+      char msg= to_AffectedMotorBinary(0,0,0,0);
+      msg=to_MotorMessage(0,0,msg);
+      pWrite(msg);
+      down_level--;
+    }
+    while(i>0){
+      char msg= to_AffectedMotorBinary(1,1,1,1);
+      msg=to_MotorMessage(0,0,msg);
+      pWrite(msg);
+      i--;
+    }
   }
-  while(i>0){
-    char msg= to_AffectedMotorBinary(1,1,1,1);
-    msg=to_MotorMessage(0,0,msg);
-    pWrite(msg);
-    down_level--;
-  }
-
 }
 
 
+
+
 //************************************************************
-//lift_up 
+//land
 //
-//lift up and hover in a certain height
 //************************************************************
 void land(){
-
-
-
-
+  char msg= to_AffectedMotorBinary(0,0,0,0);
+  msg=to_MotorMessage(0,0,msg);
+  pWrite(msg);
 }
 
 
@@ -132,7 +133,7 @@ void land(){
 //
 //  1111 1111 (hover)
 //************************************************************
-  void hover()
+void hover()
 {
   char msg = 0;
   msg = ~msg;
@@ -189,7 +190,7 @@ void go_forwards()
 void go_backwards()
 {
 
- char msg = to_AffectedMotorBinary(0,0,1,1);
+  char msg = to_AffectedMotorBinary(0,0,1,1);
   SET_FLAG(msg, BIT_POS(6));
   msg = to_MotorMessage(0,0,msg);
   pWrite(msg);
@@ -209,10 +210,10 @@ void go_backwards()
 char to_MotorMessage(char increasing, char panicMode, char motors)
 {
   if(increasing == 1)
-   SET_FLAG(motors, BIT_POS(5));
+    SET_FLAG(motors, BIT_POS(5));
 
   if(panicMode == 1)
-  SET_FLAG(motors, BIT_POS(4));
+    SET_FLAG(motors, BIT_POS(4));
   
   return motors;
 }
@@ -283,19 +284,29 @@ int main(int argc, char* argv[])
   // int direction
   
   //simulated test data
-  char order  = atoi(argv[1]);
-  int  height  = atoi(argv[2]);
-  int direction = atoi(argv[3]);
+  /* char order  = atoi(argv[1]); */
+  /* int  height  = atoi(argv[2]); */
+  /* int direction = atoi(argv[3]); */
 
-  struct MoveCommand movement = {order,height,direction};
+  /* struct MoveCommand movement = {order,height,direction}; */
+
+  int number = stay_hover_nr();
+  printf ("number is%d \n",number);
+  printf("lift up");
+  lift_up(number, 2);
+  printf("go down");
+  go_down(number, 1);
+  printf("land");
+  land();
+
 
   /* start_motors();
-  stop_motors(); 
-  hover();
-  go_forwards();
-  go_backwards();
-  go_right_no_strafe();
-  go_left_no_strafe();*/
+     stop_motors(); 
+     hover();
+     go_forwards();
+     go_backwards();
+     go_right_no_strafe();
+     go_left_no_strafe();*/
 
   //read from magnetometer (x,y,z) and calculate the current heading
 
