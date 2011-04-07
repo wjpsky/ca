@@ -1,5 +1,5 @@
 BIN= prog
-OBJS= collision_logic.c object_calculations.c collision_main.c \
+OBJS= collision_logic.c object_calculations.c collision_main.c collisionInterface.c \
  collision_sensor.c
 
 
