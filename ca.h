@@ -72,3 +72,11 @@ int ir_distance(int irpin);
  *object_calculations.c
  *******************/
 unsigned char* moving_closer (int * irDistances);
+
+
+
+/*******************
+ *collisionInterface.c
+ *******************/
+void init();
+void run();
