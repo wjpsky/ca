@@ -10,11 +10,12 @@
  *****************************************************************************/
 
 #include "movement.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-#ifdef ENABLE_LIBARDUINO
-
+#ifdef ARDUINO
 //************************************************************
-// 
+// ARDUINO
 // All movement preperation goes here.
 //************************************************************
 void init()
@@ -26,7 +27,7 @@ void init()
 
 
 //************************************************************
-// 
+// ARDUINO
 // Movement is started here
 //************************************************************
 void run()
@@ -41,27 +42,32 @@ void run()
 
 
 #ifdef PC
+//************************************************************
+// PC
+//  All movement preperation goes here.
+//************************************************************
 void init()
 {
+  
+
 
 
 }
 
-
+//************************************************************
+// PC
+// Movement is started here
+//************************************************************
 void run()
 {
 
 
 
 }
+#endif
 
-
-#else
-
-#include <stdlib.h>
-#include <stdio.h>
-#include "movement.h"
-
+#ifndef ARDUINO
+#ifndef PC 
 int main(int argc, char* argv[])
 {
   //Receive the message through protocol from Navigation
@@ -89,4 +95,6 @@ int main(int argc, char* argv[])
      printf("MESSAGE %d \n", msg);
      print_char_to_Binary(msg);*/
 }
+
+#endif
 #endif
