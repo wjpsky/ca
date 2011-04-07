@@ -16,5 +16,5 @@ char to_AffectedMotorBinary(char motor1, char motor2, char motor3, char motor4);
 
 
 //**calculations.c**
-void angle(double x,double y);
-  void third_side(int a, int b);
+double angle(double x,double y);
+double third_side(int a, int b);

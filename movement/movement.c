@@ -299,15 +299,6 @@ int main(int argc, char* argv[])
 
   struct MoveCommand movement = {order,height,direction};
 
-  angle(30,100);
-  third_side(5,5);
-  /* start_motors();
-  stop_motors(); 
-  hover();
-  go_forwards();
-  go_backwards();
-  go_right_no_strafe();
-  go_left_no_strafe();*/
 
   //read from magnetometer (x,y,z) and calculate the current heading
 

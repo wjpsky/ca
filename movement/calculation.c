@@ -18,16 +18,18 @@
 #define PI 3.14159265
 
 /* caculate the angle between 2 points */
-void angle(double x,double y){ 
+double angle(double x,double y){ 
   double alpha;
   alpha =atan2 (y,x) * 180 / PI;
-  printf("\n\n the angle is %f degree \n\n ",alpha);
+  //printf("\n\n the angle is %f degree \n\n ",alpha);
+  return alpha;
 }
 
-void third_side(int a, int b){
+double third_side(int a, int b){
   double c = (a * a) + (b * b);
   c = pow(c,.5);
-  printf("\n\n third side %f  \n\n ",c);
+  //printf("\n\n third side %f  \n\n ",c);
+  return c;
 }
 
 /*
