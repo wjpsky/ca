@@ -284,35 +284,3 @@ void print_char_to_Binary(char bin)
 //************End of Testing methods
 
 
-int main(int argc, char* argv[])
-{
-
-  //Receive the message through protocol from Navigation
-  //Char order (1 start or 0 Stop)
-  //int height
-  // int direction
-  
-  //simulated test data
-  char order  = atoi(argv[1]);
-  int  height  = atoi(argv[2]);
-  int direction = atoi(argv[3]);
-
-  struct MoveCommand movement = {order,height,direction};
-
-
-  //read from magnetometer (x,y,z) and calculate the current heading
-
-  //calculate the Y angle between the received instruction from navigation and the current heading
-  
-
-  //send out the commands through protocoll to filter group
-
-
-  //TEMP TESTING SUPPORT
-  /* char msg = to_AffectedMotorBinary(1,0,1,1);
-     msg = to_MotorMessage(1,0,msg);
-
-     printf("MESSAGE %d \n", msg);
-     print_char_to_Binary(msg);*/
-
-}

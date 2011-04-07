@@ -1,5 +1,5 @@
 BIN= prog
-OBJS= movement.c calculation.c
+OBJS= movement.c calculation.c movementInterface.c
 
 
 $(BIN): $(OBJS)
