@@ -196,16 +196,12 @@ void go_forwards()
 //************************************************************
 void go_backwards()
 {
-<<<<<<< HEAD
 
   char msg = to_AffectedMotorBinary(0,0,1,1);
-=======
 	/*motor_msg.rear=1;
 	motor_msg.right=1;
 	motor_msg.increase=1;
 	motor_msg.panic=1;*/
- char msg = to_AffectedMotorBinary(0,0,1,1);
->>>>>>> 6803c9833742de50f175182d713048f861217eff
   SET_FLAG(msg, BIT_POS(6));
   msg = to_MotorMessage(0,0,msg);
   pWrite(msg);
@@ -313,18 +309,6 @@ int main(int argc, char* argv[])
   go_down(number, 1);
   printf("land");
   land();
-
-
-<<<<<<< HEAD
-  /* start_motors();
-     stop_motors(); 
-     hover();
-     go_forwards();
-     go_backwards();
-     go_right_no_strafe();
-     go_left_no_strafe();*/
-=======
->>>>>>> 6803c9833742de50f175182d713048f861217eff
 
   //read from magnetometer (x,y,z) and calculate the current heading
 
