@@ -299,6 +299,8 @@ int main(int argc, char* argv[])
 
   struct MoveCommand movement = {order,height,direction};
 
+  angle(30,100);
+  third_side(5,5);
   /* start_motors();
   stop_motors(); 
   hover();
