@@ -1,5 +1,5 @@
 BIN= prog
-OBJS= movement.c
+OBJS= movement.c calculation.c
 
 
 $(BIN): $(OBJS)
@@ -14,4 +14,4 @@ dist: $(BIN)
 	gzip $(DISTFILE_TAR)
 
 $(BIN): $(OBJS) 
-	gcc $(OBJS) -o $(BIN)
+	gcc $(OBJS) -o $(BIN) -lm
