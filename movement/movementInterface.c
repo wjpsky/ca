@@ -57,6 +57,11 @@ void run()
 
 
 #else
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "movement.h"
+
 int main(int argc, char* argv[])
 {
   //Receive the message through protocol from Navigation
@@ -78,7 +83,7 @@ int main(int argc, char* argv[])
 
 
   //TEMP TESTING SUPPORT
-  /* char msg = to_AffectedMotorBinary(1,0,1,1);
+  /*char msg = to_AffectedMotorBinary(1,0,1,1);
      msg = to_MotorMessage(1,0,msg);
 
      printf("MESSAGE %d \n", msg);
