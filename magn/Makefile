@@ -7,7 +7,7 @@
 #######################################################################
 
 # adapt to your project
-PROG=test
+PROG=comp
 SRC=$(PROG).c
 
 #     Change device names to corespond to your system
