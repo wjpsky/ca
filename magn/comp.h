@@ -1,3 +1,4 @@
+void in(void);
 void getValues(int *x, int *y, int *z);
 void sendStart(void);
 void sendStop(void);

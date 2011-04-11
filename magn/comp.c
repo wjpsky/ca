@@ -9,17 +9,18 @@
 
 int main(void){
 	init();
+	in();
 	sei();
-	int i=0;
 	while(1) {
 		int x,y,z;
 		getValues(&x,&y,&z);	
-		printf("X= %d\tY= %d\tZ= %d", x, y, z);
+		printf("X= %d\tY= %d\tZ= %d\n", x, y, z);
+		delay(1000);
 	}
 	return 1;
 }
 
-void init(void){
+void in(void){
 	PORTC = 0b00110000;
 	// Formula from 21.5.2 in ATmega168 datasheet.
 	TWSR &= ~((1<<TWPS1)&(1<<TWPS0));
@@ -30,7 +31,7 @@ void init(void){
 	sendByte(0x02);
 	sendByte(0x00);
 	sendStop();
-	_delay_ms(100);
+	delay(100);
 }
 
 void getValues(int *x, int *y, int *z) {
