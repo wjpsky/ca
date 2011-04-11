@@ -10,6 +10,8 @@
 int main(void){
 	init();
 	in();
+	serial_init();
+	fdevopen(serial_putchar, serial_getchar);
 	sei();
 	while(1) {
 		int x,y,z;
