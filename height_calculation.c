@@ -34,7 +34,7 @@ int height_filter(int distance){
 	else return CRASH;
 }
 
-int main(int argc, char* argv[]){
+int height_calculation_main(int argc, char* argv[]){
 	long duration;
 	int cm;
 	
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
 		duration = atoi(argv[1]);
 		cm = duration_to_cm(duration);
 		PRINT;
-		printf("Duration: %u and the CM: %d", duration, cm);
+		printf("CM: %d", cm);
 		PRINT;
 		int action;
 		action = height_filter(cm);
@@ -65,6 +65,13 @@ int main(int argc, char* argv[]){
 		PRINT;		
 	}
 	else printf("Enter the distance!");
-	
+}
 
+
+/*******************
+ *return the height difference
+ *******************/
+int height_calc(int height_order, int height_sensor)
+{
+  return height_sensor-height_order;
 }

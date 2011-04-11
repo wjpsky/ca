@@ -19,7 +19,7 @@
   *                      Jin: Add method to get the final destination
   * March 31st, 2011 -   Jin: Add moving_closer_filter mothod
   *
-  * Movement/CA Group
+a  * Movement/CA Group
   *****************************************************************************/
 
 #include <stdlib.h>

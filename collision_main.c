@@ -11,32 +11,23 @@
  *****************************************************************************/
 //#define  ENABLE_LIBARDUINO
 
-#ifdef ENABLE_LIBARDUINO
-
-#include <avr/io.h>
-#include <stdio.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
-#include <libarduino.h>
-
-#include <WProgram.h>
-
-#define IRPIN1 0
-#define IRPIN2 1
-#define IRPIN3 3
-#define IRPIN4 4
-
+#ifdef ARDUINO
+    #include "WProgram.h"
+    #define IRPIN1 0
+    #define IRPIN2 1
+    #define IRPIN3 3
+    #define IRPIN4 4
+#elif defined PC
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <stdio.h>
+    #define PRINT printf("\n================================\n")
 #endif
 
-
-#include <stdlib.h>
-#include <stdio.h>
 #include "ca.h"
-#define PRINT printf("\n================================\n")
 
 
-
-#ifdef ENABLE_LIBARDUINO
+#ifdef ARDUINO
 //**********************************************************
 // filter the direction according to the collision logic
 // return the direction to go
@@ -132,7 +123,7 @@ int ir4=ir_distance(IRPIN4);
 }
 
 
-#else
+#elif defined PC
 
 //**********************************************************
 // filter the direction according to the collision logic

@@ -49,12 +49,15 @@ void print_result(unsigned char *result);
 /*******************
  * collision_main.c
  *******************/
-#ifdef ENABLE_LIBARDUINO
+#ifdef ARDUINO
 int direction_filter(void);
-#else
+
+#elif defined PC
 int direction_filter(int speed,int dir,
 		     int ir1, int ir2, int ir3, int ir4);
-#endif
+#endif 
+
+
 int get_speed(void);
 int get_dir(void);
 
@@ -62,10 +65,10 @@ int get_dir(void);
 /*******************
  * collision_sensor.c
  *******************/
+#ifdef ARDUINO
 int ir_distance(int irpin);
 /* float sonar_distance(int sonarPin); */
-
-
+#endif
 
 
 /*******************
@@ -74,9 +77,22 @@ int ir_distance(int irpin);
 unsigned char* moving_closer (int * irDistances);
 
 
-
 /*******************
  *collisionInterface.c
  *******************/
-void init();
-void run();
+#ifdef ARDUINO
+void collision_init(void);
+void collision_run(void);
+#elif defined PC
+void collision_init(void);
+void collision_run(int ir1,int ir2, int ir3, int ir4);
+#endif 
+
+/*******************
+ *height_calculation.c
+ *******************/
+int duration_to_cm(long duration);
+int height_filter(int distance);
+int height_calculation_main(int argc, char* argv[]);
+int height_calc(int height_order, int height_sensor);
+

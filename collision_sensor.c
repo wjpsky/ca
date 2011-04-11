@@ -9,10 +9,7 @@
   *****************************************************************************/
 //#define ENABLE_LIBARDUINO
 
-#ifdef ENABLE_LIBARDUINO
-#include <avr/io.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
+#ifdef ARDUINO
 #include <WProgram.h>
 #include <stdio.h>
 #include <math.h>
