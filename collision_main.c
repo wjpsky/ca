@@ -11,55 +11,23 @@
  *****************************************************************************/
 //#define  ENABLE_LIBARDUINO
 
-#ifdef ENABLE_LIBARDUINO
-
-#include <avr/io.h>
-#include <stdio.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
-#include <libarduino.h>
-
-#include <WProgram.h>
-
-#define IRPIN1 0
-#define IRPIN2 1
-#define IRPIN3 3
-#define IRPIN4 4
-
+#ifdef ARDUINO
+    #include "WProgram.h"
+    #define IRPIN1 0
+    #define IRPIN2 1
+    #define IRPIN3 3
+    #define IRPIN4 4
+#elif defined PC
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <stdio.h>
+    #define PRINT printf("\n================================\n")
 #endif
 
-
-#include <stdlib.h>
-#include <stdio.h>
 #include "ca.h"
-#define PRINT printf("\n================================\n")
 
 
-
-#ifdef ENABLE_LIBARDUINO
-//**********************************************************
-// main method
-//**********************************************************
-
-int main(void)
-{
-  init();
-
-  /* //init the serial output */
-  serial_init();
-  fdevopen(serial_putchar, serial_getchar);
-
-  int i=0;
-  while(i<1000)
-    {
-      direction_filter();
-      i++;
-    }
-
-  return 1;
-
-}
-
+#ifdef ARDUINO
 //**********************************************************
 // filter the direction according to the collision logic
 // return the direction to go
@@ -155,31 +123,7 @@ int ir4=ir_distance(IRPIN4);
 }
 
 
-#else
-
-//**********************************************************
-// main method
-//**********************************************************
-
-int main(int argc, char* argv[])
-{
-
-  int ir1,ir2,ir3,ir4;
-
-  ir1 = atoi(argv[1]);
-  ir2 = atoi(argv[2]);
-  ir3 = atoi(argv[3]);
-  ir4 = atoi(argv[4]);
-  int i=0;
-  while (i<5){
-    direction_filter(get_speed(),get_dir(),ir1, ir2, ir3, ir4);
-    i++;
-}
-
-  return 1;
-
-}
-
+#elif defined PC
 
 //**********************************************************
 // filter the direction according to the collision logic
