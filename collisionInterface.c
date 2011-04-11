@@ -77,27 +77,3 @@ void collision_run(int ir1, int ir2, int ir3, int ir4)
 
 
 #endif
-
-
-//**********************************************************
-// main method
-//**********************************************************
-
-int main(int argc, char* argv[])
-{
-
-  int ir1,ir2,ir3,ir4;
-
-  ir1 = atoi(argv[1]);
-  ir2 = atoi(argv[2]);
-  ir3 = atoi(argv[3]);
-  ir4 = atoi(argv[4]);
-  int i=0;
-  while (i<5){
-    direction_filter(get_speed(),get_dir(),ir1, ir2, ir3, ir4);
-    i++;
-}
-
-  return 1;
-
-}
