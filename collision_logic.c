@@ -8,19 +8,19 @@
   {front, back, left, right,hover}
 
 */
-  /*****************************************************************************
-  * Product: collision_logic.c
-  * Version: 0.1
-  * Creators: Jin, Amber
-  * Created: March 29 2011
-  * History:
-  * March 30th, 2011 - Amber: Changed int types to unsigned char for booleans.
-  *                           Changed to bitwise operation for changing values
-  *                      Jin: Add method to get the final destination
-  * March 31st, 2011 -   Jin: Add moving_closer_filter mothod
-  *
-  * Movement/CA Group
-  *****************************************************************************/
+/*****************************************************************************
+ * Product: collision_logic.c
+ * Version: 0.1
+ * Creators: Jin, Amber
+ * Created: March 29 2011
+ * History:
+ * March 30th, 2011 - Amber: Changed int types to unsigned char for booleans.
+ *                           Changed to bitwise operation for changing values
+ *                      Jin: Add method to get the final destination
+ * March 31st, 2011 -   Jin: Add moving_closer_filter mothod
+ *
+a  * Movement/CA Group
+*****************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -201,7 +201,7 @@ unsigned char *moving_closer_filter(unsigned char *is_moving, unsigned char*dire
       *(directions+4) = 0;//can't hover
     }
 
- return directions;
+  return directions;
 }
 
 //*********************************************************
@@ -337,45 +337,45 @@ void print_result(unsigned char *result)
 // main method
 //**********************************************************
 /*int main(int argc, char* argv[])
-{
+  {
   int ir1,ir2,ir3,ir4,flyingDir,speed;
 
   if(argc == 7)
-    {
-      ir1 = atoi(argv[1]);
-      ir2 = atoi(argv[2]);
-      ir3 = atoi(argv[3]);
-      ir4 = atoi(argv[4]);
-      flyingDir=atoi(argv[5]);
-      speed=atoi(argv[6]);
+  {
+  ir1 = atoi(argv[1]);
+  ir2 = atoi(argv[2]);
+  ir3 = atoi(argv[3]);
+  ir4 = atoi(argv[4]);
+  flyingDir=atoi(argv[5]);
+  speed=atoi(argv[6]);
   
-      int dangerzone;
-      dangerzone= speed_filter(speed);
+  int dangerzone;
+  dangerzone= speed_filter(speed);
 
-      unsigned char * irboolean;
-      irboolean =  distance_filter(dangerzone,ir1,ir2,ir3,ir4);
+  unsigned char * irboolean;
+  irboolean =  distance_filter(dangerzone,ir1,ir2,ir3,ir4);
 
-      unsigned char *ir_filter_result;  
-      ir_filter_result=ir_filter(irboolean);
+  unsigned char *ir_filter_result;  
+  ir_filter_result=ir_filter(irboolean);
 
-      unsigned char *currentDirection_filter_result;
-      currentDirection_filter_result = currentDirection_filter(flyingDir,ir_filter_result);
+  unsigned char *currentDirection_filter_result;
+  currentDirection_filter_result = currentDirection_filter(flyingDir,ir_filter_result);
 
-      PRINT;
-      printf("FINAL RESULT \n\n");
-      print_result(currentDirection_filter_result);  
+  PRINT;
+  printf("FINAL RESULT \n\n");
+  print_result(currentDirection_filter_result);  
 
-      int dir = final_direction(flyingDir, currentDirection_filter_result);
+  int dir = final_direction(flyingDir, currentDirection_filter_result);
 
-      PRINT; 
-      printf("IF I HAVE TO PICK A DIRECTION\nI CHOOSE ");
-      outputdirection(dir);
-      PRINT; 
-      return 1;
-    }
+  PRINT; 
+  printf("IF I HAVE TO PICK A DIRECTION\nI CHOOSE ");
+  outputdirection(dir);
+  PRINT; 
+  return 1;
+  }
   else
-    {
-      printf("too few argument\n");
-      return 0;
-    }
-    }*/
+  {
+  printf("too few argument\n");
+  return 0;
+  }
+  }*/
