@@ -1,25 +1,55 @@
 #include <avr/io.h>
-#include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include <libarduino.h>
-#include <WProgram.h>
+#include <math.h>
 
 #include "comp.h"
 
-int main(void){
-	init();
-	in();
-	serial_init();
-	fdevopen(serial_putchar, serial_getchar);
-	sei();
-	while(1) {
+#ifdef ARDUINO
+   #include "WProgram.h"
+#elif defined PC
+   #include <stdio.h>
+#endif
+
+void setup(){
+#ifdef ARDUINO
+  Serial.begin(9600);
+  delay(5); // The HMC5843 needs 5ms before it will communicate
+#elif defined PC
+	printf("Start\n");
+#endif
+}
+
+void loop() {
 		int x,y,z;
-		getValues(&x,&y,&z);	
-		printf("X= %d\tY= %d\tZ= %d\n", x, y, z);
+		int pitch = 0;
+		int roll = 0;
+		float heading = calc_h(pitch, roll, x, y, z);
+		getValues(&x,&y,&z);
+#ifdef ARDUINO
+  		Serial.print(x);
+		Serial.print(", ");
+		Serial.print(y);
+		Serial.print(", ");
+		Serial.println(z);
+		Serial.print("Heading: ");
+		Serial.println(heading);
+#elif defined PC
+   printf("%d, %d, %d\n")
+#endif
 		delay(1000);
-	}
-	return 1;
+}
+
+int main(void){
+//#ifdef ARDUINO
+	init();
+//#endif
+	in();
+	sei();
+	setup();
+	int i;
+	for(i=0;i<10;i++){ loop();}
+	return 0;
 }
 
 void in(void){
@@ -34,6 +64,15 @@ void in(void){
 	sendByte(0x00);
 	sendStop();
 	delay(100);
+}
+
+float calc_h(int pitch, int roll, int x, int y, int z){
+	float xh, yh;
+	xh = x*cos(pitch) + z*sin(pitch);
+	yh = x*sin(roll)*sin(pitch) + y*cos(roll) - z*sin(roll)*cos(pitch);
+	float h;
+	h = atan(yh/xh);
+	return h;
 }
 
 void getValues(int *x, int *y, int *z) {
