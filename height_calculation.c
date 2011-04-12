@@ -1,4 +1,5 @@
 /*
+Author: Alina Butko
 Moving directions: UP, DOWN, HOVER
 Moving: 1 - OK, 0 - BAD
 Detecting: 1 - BAD, 0 - OK

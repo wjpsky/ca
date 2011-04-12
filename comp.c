@@ -1,3 +1,8 @@
+/*
+Author: Alina Butko
+Description: Reads data from magnetometer
+*/
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
