@@ -8,24 +8,7 @@
   {front, back, left, right,hover}
 
 */
-<<<<<<< HEAD
-<<<<<<< HEAD
-  /*****************************************************************************
-  * Product: collision_logic.c
-  * Version: 0.1
-  * Creators: Jin, Amber
-  * Created: March 29 2011
-  * History:
-  * March 30th, 2011 - Amber: Changed int types to unsigned char for booleans.
-  *                           Changed to bitwise operation for changing values
-  *                      Jin: Add method to get the final destination
-  * March 31st, 2011 -   Jin: Add moving_closer_filter mothod
-  *
-a  * Movement/CA Group
-  *****************************************************************************/
-=======
-=======
->>>>>>> f9c119c41e1eaa13969bd0376bfe5dcec52a28b9
+
 /*****************************************************************************
  * Product: collision_logic.c
  * Version: 0.1
@@ -39,10 +22,6 @@ a  * Movement/CA Group
  *
 a  * Movement/CA Group
 *****************************************************************************/
-<<<<<<< HEAD
->>>>>>> f9c119c41e1eaa13969bd0376bfe5dcec52a28b9
-=======
->>>>>>> f9c119c41e1eaa13969bd0376bfe5dcec52a28b9
 
 #include <stdlib.h>
 #include <stdio.h>

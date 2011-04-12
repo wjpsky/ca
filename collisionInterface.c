@@ -77,12 +77,6 @@ void collision_run(int ir1, int ir2, int ir3, int ir4)
 
 
 #endif
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f9c119c41e1eaa13969bd0376bfe5dcec52a28b9
-
 
 //**********************************************************
 // main method
@@ -106,7 +100,3 @@ int main(int argc, char* argv[])
   return 1;
 
 }
-<<<<<<< HEAD
->>>>>>> f9c119c41e1eaa13969bd0376bfe5dcec52a28b9
-=======
->>>>>>> f9c119c41e1eaa13969bd0376bfe5dcec52a28b9

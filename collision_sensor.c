@@ -7,7 +7,6 @@
   *
   * Movement/CA Group
   *****************************************************************************/
-//#define ENABLE_LIBARDUINO
 
 #ifdef ARDUINO
 #include <WProgram.h>
