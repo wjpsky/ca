@@ -1,6 +1,5 @@
 BIN= prog
-OBJS= collision_logic.c object_calculations.c collision_main.c collisionInterface.c \
- collision_sensor.c
+OBJS= movement.c calculation.c movementInterface.c
 
 
 $(BIN): $(OBJS)
@@ -14,8 +13,5 @@ dist: $(BIN)
 	tar cvf $(DISTFILE_TAR) *.c  $(BIN) Makefile
 	gzip $(DISTFILE_TAR)
 
-
 $(BIN): $(OBJS) 
-	gcc $(OBJS) -Wall -fprofile-arcs -ftest-coverage  -o $(BIN)
-
-
+	gcc $(OBJS) -o $(BIN) -lm
